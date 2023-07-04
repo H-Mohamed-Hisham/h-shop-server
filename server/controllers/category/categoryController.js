@@ -1,9 +1,7 @@
 import asyncHandler from "express-async-handler";
 
-// * Model
+// Model
 import Category from "../../models/categoryModel.js";
-
-// ! Public Access
 
 // * @desc - Get All Category
 // * @route - GET /api/category

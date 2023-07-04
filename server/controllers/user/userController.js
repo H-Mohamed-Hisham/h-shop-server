@@ -1,14 +1,16 @@
 import asyncHandler from "express-async-handler";
-import jwt from "jsonwebtoken";
 
-// * Model
-import User from "../../models/User";
+// Model
+import User from "../../models/User.js";
 
-// * User Validator
+// User Validator
 import {
   //   validateSignupInput,
   validateSigninInput,
-} from "../../validator/userValidator.js";
+} from "../../validators/userValidator.js";
+
+// Helpers
+import { generateToken } from "../../helpers/generateToken.js";
 
 // * @desc - Sign In (Auth user & get token)
 // * @route - POST /api/user/signin
