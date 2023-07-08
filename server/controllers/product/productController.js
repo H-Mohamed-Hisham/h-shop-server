@@ -9,8 +9,7 @@ import Product from "../../models/Product.js";
 export const getAllProducts = asyncHandler(async (req, res) => {
   const { skip, limit, productKeyword } = req.query;
 
-  let _skip = Number(skip);
-  let _limit = Number(limit);
+  const _skip = Number(skip) || 1;
 
   const keyword = productKeyword
     ? {
@@ -23,14 +22,14 @@ export const getAllProducts = asyncHandler(async (req, res) => {
 
   const products = await Product.find({ ...keyword })
     .populate("categoryId", "name")
-    .limit(_limit)
-    .skip(_limit * (_skip - 1))
-    .exec();
+    .limit(limit)
+    .skip(limit * (_skip - 1));
 
-  console.log(products);
+  const productCount = await Product.countDocuments({ ...keyword });
 
   res.json({
     products,
+    productCount: productCount,
   });
 });
 
