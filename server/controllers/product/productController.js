@@ -9,28 +9,32 @@ import Product from "../../models/Product.js";
 export const getAllProducts = asyncHandler(async (req, res) => {
   const { skip, limit, productKeyword } = req.query;
 
-  const _skip = Number(skip) || 1;
+  try {
+    const _skip = Number(skip) || 1;
 
-  const keyword = productKeyword
-    ? {
-        name: {
-          $regex: productKeyword,
-          $options: "i",
-        },
-      }
-    : {};
+    const keyword = productKeyword
+      ? {
+          name: {
+            $regex: productKeyword,
+            $options: "i",
+          },
+        }
+      : {};
 
-  const products = await Product.find({ ...keyword })
-    .populate("categoryId", "name")
-    .limit(limit)
-    .skip(limit * (_skip - 1));
+    const products = await Product.find({ ...keyword })
+      .populate("categoryId", "name")
+      .limit(limit)
+      .skip(limit * (_skip - 1));
 
-  const productCount = await Product.countDocuments({ ...keyword });
+    const productCount = await Product.countDocuments({ ...keyword });
 
-  res.json({
-    products,
-    productCount: productCount,
-  });
+    res.json({
+      products,
+      productCount: productCount,
+    });
+  } catch (error) {
+    throw new Error(error);
+  }
 });
 
 // * @desc - Get Product By ID
