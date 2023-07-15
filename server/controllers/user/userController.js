@@ -41,6 +41,15 @@ export const signin = asyncHandler(async (req, res) => {
   if (user && user.isAccountVerified) {
     res.json({
       token: generateToken(user._id, user.name, user.role),
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+        isAccountVerified: user.isAccountVerified,
+      },
     });
   } else {
     return res.json({
