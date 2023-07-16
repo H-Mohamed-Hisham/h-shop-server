@@ -4,7 +4,7 @@ import asyncHandler from "express-async-handler";
 import Product from "../../models/Product.js";
 
 // * @desc - Get All Products
-// * @route - GET /api/product
+// * @route - GET /api/product/list
 // * @access - Public
 export const getAllProducts = asyncHandler(async (req, res) => {
   const { skip, limit, productKeyword } = req.query;
@@ -38,15 +38,13 @@ export const getAllProducts = asyncHandler(async (req, res) => {
 });
 
 // * @desc - Get Product By ID
-// * @route - GET /api/product/:id
+// * @route - GET /api/product/detail?id=:id
 // * @access - Public
 export const getProductById = asyncHandler(async (req, res) => {
-  // const product = await Product.findById(req.query.id).populate(
-  //   "category",
-  //   "name"
-  // );
-
-  const product = await Product.findById(req.query.id);
+  const product = await Product.findById(req.query.id).populate(
+    "categoryId",
+    "name"
+  );
 
   if (product) {
     res.json(product);

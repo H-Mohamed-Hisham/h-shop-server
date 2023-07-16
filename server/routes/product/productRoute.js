@@ -9,7 +9,7 @@ import {
 
 const router = express.Router();
 
-router.get("/", getAllProducts);
+router.get("/list", getAllProducts);
 
 router.get("/detail", getProductById);
 
