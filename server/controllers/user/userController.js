@@ -33,9 +33,10 @@ export const signin = asyncHandler(async (req, res) => {
   const match = await bcrypt.compare(password, user.password);
 
   if (!match) {
-    return res.json({
-      error: "Invalid email or password",
-    });
+    // return res.json({
+    //   error: "Invalid email or password",
+    // });
+    throw new Error("Invalid email or password");
   }
 
   if (user && user.isAccountVerified) {
@@ -52,9 +53,10 @@ export const signin = asyncHandler(async (req, res) => {
       },
     });
   } else {
-    return res.json({
-      error: "Email has been not verified",
-    });
+    // return res.json({
+    //   error: "Email has been not verified",
+    // });
+    throw new Error("Email has been not verified");
   }
 });
 
