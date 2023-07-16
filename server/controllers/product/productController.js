@@ -41,10 +41,12 @@ export const getAllProducts = asyncHandler(async (req, res) => {
 // * @route - GET /api/product/:id
 // * @access - Public
 export const getProductById = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id).populate(
-    "category",
-    "name"
-  );
+  // const product = await Product.findById(req.query.id).populate(
+  //   "category",
+  //   "name"
+  // );
+
+  const product = await Product.findById(req.query.id);
 
   if (product) {
     res.json(product);
