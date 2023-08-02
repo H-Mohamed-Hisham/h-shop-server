@@ -1,14 +1,17 @@
 import asyncHandler from "express-async-handler";
-import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
-// * Model
-import User from "../../models/User";
+// Model
+import User from "../../models/User.js";
 
-// * User Validator
+// User Validator
 import {
   //   validateSignupInput,
   validateSigninInput,
-} from "../../validator/userValidator.js";
+} from "../../validators/userValidator.js";
+
+// Helpers
+import { generateToken } from "../../helpers/generateToken.js";
 
 // * @desc - Sign In (Auth user & get token)
 // * @route - POST /api/user/signin
@@ -27,20 +30,33 @@ export const signin = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  if (user && (await user.matchPassword(password))) {
-    if (user && user.isAccountVerified) {
-      res.json({
-        token: generateToken(user._id, user.name, user.role),
-      });
-    } else {
-      return res.json({
-        error: "Email has been not verified",
-      });
-    }
-  } else {
-    return res.json({
-      error: "Invalid email or password",
+  const match = await bcrypt.compare(password, user.password);
+
+  if (!match) {
+    // return res.json({
+    //   error: "Invalid email or password",
+    // });
+    throw new Error("Invalid email or password");
+  }
+
+  if (user && user.isAccountVerified) {
+    res.json({
+      token: generateToken(user._id, user.name, user.role),
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+        isAccountVerified: user.isAccountVerified,
+      },
     });
+  } else {
+    // return res.json({
+    //   error: "Email has been not verified",
+    // });
+    throw new Error("Email has been not verified");
   }
 });
 

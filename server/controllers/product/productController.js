@@ -4,41 +4,45 @@ import asyncHandler from "express-async-handler";
 import Product from "../../models/Product.js";
 
 // * @desc - Get All Products
-// * @route - GET /api/product
+// * @route - GET /api/product/list
 // * @access - Public
 export const getAllProducts = asyncHandler(async (req, res) => {
-  const { pageNumber, productKeyword } = req.query;
+  const { skip, limit, productKeyword } = req.query;
 
-  const productsPerPage = 2;
-  const page = Number(pageNumber) || 1;
+  try {
+    const _skip = Number(skip) || 1;
 
-  const keyword = productKeyword
-    ? {
-        name: {
-          $regex: productKeyword,
-          $options: "i",
-        },
-      }
-    : {};
+    const keyword = productKeyword
+      ? {
+          name: {
+            $regex: productKeyword,
+            $options: "i",
+          },
+        }
+      : {};
 
-  const products = await Product.find({ ...keyword })
-    .populate("categoryId", "name")
-    .limit(productsPerPage)
-    .skip(productsPerPage * (page - 1))
-    .exec();
+    const products = await Product.find({ ...keyword })
+      .populate("categoryId", "name")
+      .limit(limit)
+      .skip(limit * (_skip - 1));
 
-  res.json({
-    products,
-    page,
-  });
+    const productCount = await Product.countDocuments({ ...keyword });
+
+    res.json({
+      products,
+      productCount: productCount,
+    });
+  } catch (error) {
+    throw new Error(error);
+  }
 });
 
 // * @desc - Get Product By ID
-// * @route - GET /api/product/:id
+// * @route - GET /api/product/detail?id=:id
 // * @access - Public
 export const getProductById = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id).populate(
-    "category",
+  const product = await Product.findById(req.query.id).populate(
+    "categoryId",
     "name"
   );
 
