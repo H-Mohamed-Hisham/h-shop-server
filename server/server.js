@@ -14,10 +14,13 @@ import productRoute from "./routes/product/productRoute.js";
 // User Route
 import userRoute from "./routes/user/userRoute.js";
 
+// Cart Route
+import cartRoute from "./routes/cart/cartRoute.js";
+
 dotenv.config();
 
 const app = express();
-app.use(cors())
+app.use(cors());
 app.use(express.json());
 app.use(cors());
 
@@ -29,6 +32,9 @@ app.use("/api/product", productRoute);
 
 // User Route
 app.use("/api/user", userRoute);
+
+// Cart Route
+app.use("/api/cart", cartRoute);
 
 // Server Route
 app.get("/", (req, res) => {
