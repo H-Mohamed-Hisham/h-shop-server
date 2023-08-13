@@ -17,6 +17,9 @@ import userRoute from "./routes/user/userRoute.js";
 // Cart Route
 import cartRoute from "./routes/cart/cartRoute.js";
 
+// Admin Route
+import adminProductRoute from "./routes/admin/adminProductRoute.js";
+
 dotenv.config();
 
 const app = express();
@@ -35,6 +38,9 @@ app.use("/api/user", userRoute);
 
 // Cart Route
 app.use("/api/cart", cartRoute);
+
+// Admin Route
+app.use("/api/admin/product", adminProductRoute);
 
 // Server Route
 app.get("/", (req, res) => {
