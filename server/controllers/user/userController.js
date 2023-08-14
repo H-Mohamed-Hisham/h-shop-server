@@ -24,7 +24,7 @@ export const signin = asyncHandler(async (req, res) => {
 
   if (!valid) {
     return res.json({
-      inputError,
+      formInputError: inputError,
     });
   }
 
