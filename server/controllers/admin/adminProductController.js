@@ -44,7 +44,6 @@ export const createProduct = asyncHandler(async (req, res) => {
       description,
       price,
       countInStock,
-      user: req.user._id,
     });
 
     await product.save();

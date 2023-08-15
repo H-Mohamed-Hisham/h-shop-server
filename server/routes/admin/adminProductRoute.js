@@ -6,10 +6,13 @@ import {
   createProduct,
 } from "../../controllers/admin/adminProductController.js";
 
+// Middleware
+import { auth, admin } from "../../middleware/auth-middleware.js";
+
 const router = express.Router();
 
-router.get("/list", getAllProducts);
+router.get("/list", auth, admin, getAllProducts);
 
-router.post("/create", createProduct);
+router.post("/create", auth, admin, createProduct);
 
 export default router;

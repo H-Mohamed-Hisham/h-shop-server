@@ -32,7 +32,7 @@ export const auth = asyncHandler(async (req, res, next) => {
 });
 
 export const admin = asyncHandler(async (req, res, next) => {
-  if (req.user && req.user.role === "admin") {
+  if (req.user && req.user.role === "Admin") {
     next();
   } else {
     res.status(401);
