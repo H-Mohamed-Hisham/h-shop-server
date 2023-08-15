@@ -35,17 +35,21 @@ export const createProduct = asyncHandler(async (req, res) => {
   //   countInStock: 1,
   // })
 
-  const product = new Product({
-    name,
-    image,
-    brand,
-    categoryId,
-    description,
-    price,
-    countInStock,
-    user: req.user._id,
-  });
+  try {
+    const product = new Product({
+      name,
+      image,
+      brand,
+      categoryId,
+      description,
+      price,
+      countInStock,
+      user: req.user._id,
+    });
 
-  await product.save();
-  res.status(201).json({ message: "Product created successfully" });
+    await product.save();
+    res.status(201).json({ message: "Product created successfully" });
+  } catch (error) {
+    throw new Error(error);
+  }
 });

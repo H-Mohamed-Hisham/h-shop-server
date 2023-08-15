@@ -6,7 +6,7 @@ import Product from "../../models/Product.js";
 // * @desc - Get All Products
 // * @route - GET /api/product/list
 // * @access - Public
-export const getAllProducts = asyncHandler(async (req, res) => {
+export const getAllProductsByLimit = asyncHandler(async (req, res) => {
   const { skip, limit, productKeyword } = req.query;
 
   try {

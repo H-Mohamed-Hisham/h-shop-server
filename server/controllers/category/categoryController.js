@@ -1,10 +1,10 @@
 import asyncHandler from "express-async-handler";
 
 // Model
-import Category from "../../models/categoryModel.js";
+import Category from "../../models/Category.js";
 
 // * @desc - Get All Category
-// * @route - GET /api/category
+// * @route - GET /api/category/list
 // * @access - Public
 export const getAllCategory = asyncHandler(async (req, res) => {
   const categories = await Category.find({});
@@ -18,7 +18,7 @@ export const getAllCategory = asyncHandler(async (req, res) => {
 });
 
 // * @desc - Get Category By Id
-// * @route - GET /api/category/:id
+// * @route - GET /api/category/detail
 // * @access - Public
 export const getCategoryById = asyncHandler(async (req, res) => {
   const category = await Category.findById(req.params.id);

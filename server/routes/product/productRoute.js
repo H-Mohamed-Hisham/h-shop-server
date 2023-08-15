@@ -2,14 +2,14 @@ import express from "express";
 
 // Controller
 import {
-  getAllProducts,
+  getAllProductsByLimit,
   getProductById,
   getTopRatedProducts,
 } from "../../controllers/product/productController.js";
 
 const router = express.Router();
 
-router.get("/list", getAllProducts);
+router.get("/list", getAllProductsByLimit);
 
 router.get("/detail", getProductById);
 

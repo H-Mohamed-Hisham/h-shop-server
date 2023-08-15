@@ -11,6 +11,9 @@ import { notFound, errorHandler } from "./middleware/error-middleware.js";
 // Product Route
 import productRoute from "./routes/product/productRoute.js";
 
+// Category Route
+import categoryRoute from "./routes/category/categoryRoute.js";
+
 // User Route
 import userRoute from "./routes/user/userRoute.js";
 
@@ -32,6 +35,9 @@ const port = process.env.PORT || 5000;
 
 // Product Route
 app.use("/api/product", productRoute);
+
+// Category Route
+app.use("/api/category", categoryRoute);
 
 // User Route
 app.use("/api/user", userRoute);
