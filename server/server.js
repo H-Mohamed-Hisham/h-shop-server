@@ -22,6 +22,7 @@ import cartRoute from "./routes/cart/cartRoute.js";
 
 // Admin Route
 import adminProductRoute from "./routes/admin/adminProductRoute.js";
+import adminCategoryRoute from "./routes/admin/adminCategoryRoute.js";
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ app.use("/api/cart", cartRoute);
 
 // Admin Route
 app.use("/api/admin/product", adminProductRoute);
+app.use("/api/admin/category", adminCategoryRoute);
 
 // Server Route
 app.get("/", (req, res) => {
