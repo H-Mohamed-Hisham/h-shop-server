@@ -2,10 +2,10 @@ import dotenv from "dotenv";
 
 // import users from "./data/users.js";
 import products from "./sample-data/products.js";
-import category from "./sample-data/category.js";
+// import category from "./sample-data/category.js";
 
 import Product from "./models/Product.js";
-import Category from "./models/Category.js";
+// import Category from "./models/Category.js";
 
 import connectDB from "./config/db.js";
 
@@ -48,10 +48,10 @@ const destroyData = async () => {
     await Product.deleteMany();
     await User.deleteMany();
 
-    console.log("Data Destroyed!".red.inverse);
+    console.log("Data Destroyed!");
     process.exit();
   } catch (error) {
-    console.error(`${error}`.red.inverse);
+    console.error(`${error}`);
     process.exit(1);
   }
 };
