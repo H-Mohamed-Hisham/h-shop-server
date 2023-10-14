@@ -21,14 +21,14 @@ export const checkout = asyncHandler(async (req, res) => {
   try {
     // Create Order Before Payment For Reference
     const newOrder = new Order({
-      user: req.user._id,
+      userId: req.user._id,
       shippingAddress,
       paymentMethod,
       orderItems,
       totalAmount,
     });
 
-    createdOrder = await newOrder.save();
+    let createdOrder = await newOrder.save();
     // Order Id
     const orderId = createdOrder._id;
 

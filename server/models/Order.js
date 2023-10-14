@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 
 const orderSchema = new Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     required: true,
     ref: "User",
   },
@@ -18,7 +18,7 @@ const orderSchema = new Schema({
   },
   paymentResponse: {
     id: { type: String },
-    status: { type: Boolean },
+    isPaid: { type: Boolean },
     status: { type: String },
     update_time: { type: String },
     email_address: { type: String },
@@ -31,7 +31,7 @@ const orderSchema = new Schema({
       image: { type: String, required: true },
       price: { type: Number, required: true },
       productId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         required: true,
         ref: "Product",
       },
