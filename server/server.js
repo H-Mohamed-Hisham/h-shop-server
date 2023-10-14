@@ -20,6 +20,9 @@ import userRoute from "./routes/user/userRoute.js";
 // Cart Route
 import cartRoute from "./routes/cart/cartRoute.js";
 
+// Order Route
+import orderRoute from "./routes/order/orderRoute.js";
+
 // Admin Route
 import adminProductRoute from "./routes/admin/adminProductRoute.js";
 import adminCategoryRoute from "./routes/admin/adminCategoryRoute.js";
@@ -45,6 +48,9 @@ app.use("/api/user", userRoute);
 
 // Cart Route
 app.use("/api/cart", cartRoute);
+
+// Order Route
+app.use("/api/order", orderRoute);
 
 // Admin Route
 app.use("/api/admin/product", adminProductRoute);
