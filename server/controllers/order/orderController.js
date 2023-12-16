@@ -66,12 +66,13 @@ export const checkout = asyncHandler(async (req, res) => {
     const updateOrder = await Order.findById(orderId);
 
     if (updateOrder) {
-      updateOrder.paymentResult = {
+      updateOrder.paymentResponse = {
         id: charge.id,
         isPaid: true,
         status: charge.status,
         update_time: charge.created,
         email_address: charge.receipt_email,
+        response: charge,
       };
     }
 
@@ -80,7 +81,7 @@ export const checkout = asyncHandler(async (req, res) => {
     // Update Product Stock
     await Promise.all(
       orderItems.map(async (element) => {
-        const product = await Product.findById(element._id);
+        const product = await Product.findById(element.productId);
         if (product) {
           product.countInStock = product.countInStock - element.quantity;
           await product.save();
@@ -88,11 +89,14 @@ export const checkout = asyncHandler(async (req, res) => {
       })
     );
 
-    res
-      .status(201)
-      .json({ status: "success", message: "Order created successfully" });
+    res.status(201).json({
+      status: "success",
+      message: "Order created successfully",
+      data: {
+        orderId,
+      },
+    });
   } catch (error) {
-    console.log("err :: ", error);
     res
       .status(201)
       .json({ status: "failure", message: "Order created successfully" });

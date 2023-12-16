@@ -26,6 +26,7 @@ import orderRoute from "./routes/order/orderRoute.js";
 // Admin Route
 import adminProductRoute from "./routes/admin/adminProductRoute.js";
 import adminCategoryRoute from "./routes/admin/adminCategoryRoute.js";
+import adminOrderRoute from "./routes/admin/adminOrderRoute.js";
 
 dotenv.config();
 
@@ -55,6 +56,7 @@ app.use("/api/order", orderRoute);
 // Admin Route
 app.use("/api/admin/product", adminProductRoute);
 app.use("/api/admin/category", adminCategoryRoute);
+app.use("/api/admin/order", adminOrderRoute);
 
 // Server Route
 app.get("/", (req, res) => {

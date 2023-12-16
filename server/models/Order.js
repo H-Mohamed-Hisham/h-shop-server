@@ -1,10 +1,13 @@
 import { model, Schema } from "mongoose";
 
+// Model
+import User from "./User.js";
+
 const orderSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: "User",
+    ref: User.modelName,
   },
   shippingAddress: {
     address: { type: String, required: true },
