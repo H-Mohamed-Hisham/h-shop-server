@@ -13,6 +13,6 @@ const router = express.Router();
 
 router.post("/create", auth, admin, createCategory);
 
-router.put("/update", auth, admin, updateCategory);
+router.post("/update", auth, admin, updateCategory);
 
 export default router;

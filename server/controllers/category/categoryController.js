@@ -18,10 +18,10 @@ export const getAllCategory = asyncHandler(async (req, res) => {
 });
 
 // * @desc - Get Category By Id
-// * @route - GET /api/category/detail
+// * @route - GET /api/category/detail?id=:id
 // * @access - Public
 export const getCategoryById = asyncHandler(async (req, res) => {
-  const category = await Category.findById(req.params.id);
+  const category = await Category.findById(req.query.id);
 
   if (category) {
     res.json(category);

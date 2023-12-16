@@ -7,13 +7,14 @@ export const validateProductInput = (
   categoryId,
   countInStock
 ) => {
+  const inputError = {};
   var convertedPrice = parseFloat(price).toFixed(2);
 
-  if (name.trim() === "") {
+  if (name === "") {
     inputError.name = "Product name must not be empty";
   }
 
-  if (image.trim() === "") {
+  if (image === "") {
     inputError.name = "Image must not be empty";
   }
 
