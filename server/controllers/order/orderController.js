@@ -102,3 +102,44 @@ export const checkout = asyncHandler(async (req, res) => {
       .json({ status: "failure", message: "Order created successfully" });
   }
 });
+
+// * @desc - Get Logged In User Orders
+// * @route - GET /api/order/my-orders
+// * @access - Private
+export const getMyOrders = asyncHandler(async (req, res) => {
+  try {
+    const orders = await Order.find({ userId: req.user._id }).populate(
+      "userId",
+      "name"
+    );
+
+    const ordersResponse = [];
+    orders.forEach(function (item) {
+      ordersResponse.push({
+        ...item?._doc,
+        customerName: item?.userId?.name,
+      });
+    });
+
+    res.json(ordersResponse);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+// * @desc - Get Logged In User Order By Id
+// * @route - GET /api/order/my-order?id=:id
+// * @access - Private
+export const getMyOrderById = asyncHandler(async (req, res) => {
+  const order = await Order.findOne({
+    user: req.user._id,
+    _id: req.query.id,
+  }).populate("userId", "name email");
+
+  if (order) {
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
