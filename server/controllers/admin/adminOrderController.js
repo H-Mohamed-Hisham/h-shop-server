@@ -23,3 +23,20 @@ export const getAllOrders = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+
+// * @desc - Get All Orders
+// * @route - GET /api/admin/order/detail?id=:id
+// * @access - Admin
+export const getOrderById = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.query.id).populate(
+    "userId",
+    "name email"
+  );
+
+  if (order) {
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});

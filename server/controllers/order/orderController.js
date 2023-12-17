@@ -26,6 +26,7 @@ export const checkout = asyncHandler(async (req, res) => {
       paymentMethod,
       orderItems,
       totalAmount,
+      paymentRespone: {},
     });
 
     let createdOrder = await newOrder.save();
@@ -132,7 +133,7 @@ export const getMyOrders = asyncHandler(async (req, res) => {
 // * @access - Private
 export const getMyOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findOne({
-    user: req.user._id,
+    userId: req.user._id,
     _id: req.query.id,
   }).populate("userId", "name email");
 
