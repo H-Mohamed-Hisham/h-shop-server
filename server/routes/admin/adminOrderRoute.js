@@ -4,6 +4,7 @@ import express from "express";
 import {
   getAllOrders,
   getOrderById,
+  updateOrderStatus,
 } from "../../controllers/admin/adminOrderController.js";
 
 // Middleware
@@ -14,5 +15,7 @@ const router = express.Router();
 router.get("/list", auth, admin, getAllOrders);
 
 router.get("/detail", auth, admin, getOrderById);
+
+router.get("/update-status", auth, admin, updateOrderStatus);
 
 export default router;

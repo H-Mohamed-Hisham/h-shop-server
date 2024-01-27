@@ -109,10 +109,9 @@ export const checkout = asyncHandler(async (req, res) => {
 // * @access - Private
 export const getMyOrders = asyncHandler(async (req, res) => {
   try {
-    const orders = await Order.find({ userId: req.user._id }).populate(
-      "userId",
-      "name"
-    );
+    const orders = await Order.find({ userId: req.user._id })
+      .populate("userId", "name")
+      .sort({ createdAt: -1 });
 
     const ordersResponse = [];
     orders.forEach(function (item) {
