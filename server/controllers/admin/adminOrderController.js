@@ -42,14 +42,24 @@ export const getOrderById = asyncHandler(async (req, res) => {
 });
 
 // * @desc - Update Order Status By Id
-// * @route - POST /api/admin/order/update-status
+// * @route - PUT /api/admin/order/update-status
 // * @access - Admin
 export const updateOrderStatus = asyncHandler(async (req, res) => {
-  console.log("REQ :: ", req.body);
-  const order = await Order.findById(req.body.id);
+  const { orderId, type, value } = req.body;
+  const order = await Order.findById(orderId);
 
   if (order) {
-    res.json(order);
+    if (type === "isShipped" && value === false) {
+      order[type] = value;
+      order.isDelivered = false;
+    } else {
+      order[type] = value;
+    }
+
+    await order.save();
+    res.json({
+      message: "Status updated succesfully",
+    });
   } else {
     res.status(404);
     throw new Error("Order not found");

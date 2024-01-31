@@ -16,6 +16,6 @@ router.get("/list", auth, admin, getAllOrders);
 
 router.get("/detail", auth, admin, getOrderById);
 
-router.get("/update-status", auth, admin, updateOrderStatus);
+router.put("/update-status", auth, admin, updateOrderStatus);
 
 export default router;
