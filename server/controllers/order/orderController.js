@@ -93,14 +93,13 @@ export const checkout = asyncHandler(async (req, res) => {
     res.status(201).json({
       status: "success",
       message: "Order created successfully",
-      data: {
-        orderId,
-      },
+      orderId,
     });
   } catch (error) {
-    res
-      .status(201)
-      .json({ status: "failure", message: "Order created successfully" });
+    res.status(201).json({
+      status: "failure",
+      message: "Failed to created order!, Please try again",
+    });
   }
 });
 
