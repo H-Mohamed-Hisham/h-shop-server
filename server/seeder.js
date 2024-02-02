@@ -1,10 +1,11 @@
 import dotenv from "dotenv";
 
-// import users from "./data/users.js";
 import products from "./sample-data/products.js";
+// import users from "./data/users.js";
 // import category from "./sample-data/category.js";
 
 import Product from "./models/Product.js";
+import Order from "./models/Order.js";
 // import Category from "./models/Category.js";
 
 import connectDB from "./config/db.js";
@@ -27,8 +28,8 @@ const importData = async () => {
     const sampleProducts = products.map((product) => {
       return {
         ...product,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        // createdAt: new Date().toISOString(),
+        // updatedAt: new Date().toISOString(),
       };
     });
 
@@ -46,7 +47,7 @@ const destroyData = async () => {
   try {
     await Order.deleteMany();
     await Product.deleteMany();
-    await User.deleteMany();
+    // await User.deleteMany();
 
     console.log("Data Destroyed!");
     process.exit();
