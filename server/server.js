@@ -23,6 +23,9 @@ import cartRoute from "./routes/cart/cartRoute.js";
 // Order Route
 import orderRoute from "./routes/order/orderRoute.js";
 
+// Review Route
+import reviewRoute from "./routes/review/reviewRoute.js";
+
 // Admin Route
 import adminProductRoute from "./routes/admin/adminProductRoute.js";
 import adminCategoryRoute from "./routes/admin/adminCategoryRoute.js";
@@ -53,6 +56,9 @@ app.use("/api/cart", cartRoute);
 
 // Order Route
 app.use("/api/order", orderRoute);
+
+// Review Route
+app.use("/api/review", reviewRoute);
 
 // Admin Route
 app.use("/api/admin/product", adminProductRoute);
