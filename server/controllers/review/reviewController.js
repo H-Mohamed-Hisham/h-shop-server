@@ -34,7 +34,7 @@ export const addReview = asyncHandler(async (req, res) => {
     let review = await Review.find({ productId: productId });
     const product = await Product.findById(productId);
 
-    if (isAlreadyReviewed.length > 7) {
+    if (isAlreadyReviewed.length > 0) {
       throw new Error("Product is already reviewed by yourself");
     } else {
       const newReview = new Review({

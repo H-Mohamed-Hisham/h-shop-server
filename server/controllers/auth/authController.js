@@ -1,5 +1,4 @@
 import asyncHandler from "express-async-handler";
-import bcrypt from "bcryptjs";
 
 // Model
 import User from "../../models/User.js";
@@ -30,7 +29,7 @@ export const signin = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  const match = await bcrypt.compare(password, user.password);
+  const match = await user.matchPassword(password);
 
   if (!match) {
     throw new Error("Invalid email or password");
@@ -38,7 +37,14 @@ export const signin = asyncHandler(async (req, res) => {
 
   if (user && user.isAccountVerified) {
     res.json({
-      token: generateToken(user._id, user.name, user.role),
+      token: generateToken(
+        user._id,
+        user.name,
+        user.role,
+        user.email,
+        user.createdAt,
+        user.updatedAt
+      ),
       user: {
         _id: user._id,
         name: user.name,
@@ -46,7 +52,6 @@ export const signin = asyncHandler(async (req, res) => {
         role: user.role,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
-        isAccountVerified: user.isAccountVerified,
       },
     });
   } else {
@@ -89,7 +94,14 @@ export const signup = asyncHandler(async (req, res) => {
 
   if (user && user.isAccountVerified) {
     res.json({
-      token: generateToken(user._id, user.name, user.role),
+      token: generateToken(
+        user._id,
+        user.name,
+        user.role,
+        user.email,
+        user.createdAt,
+        user.updatedAt
+      ),
       user: {
         _id: user._id,
         name: user.name,
@@ -97,7 +109,6 @@ export const signup = asyncHandler(async (req, res) => {
         role: user.role,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
-        isAccountVerified: user.isAccountVerified,
       },
       message: `Your account has been created successfully`,
     });

@@ -44,3 +44,29 @@ export const validateSigninInput = (email, password) => {
     valid: Object.keys(inputError).length < 1,
   };
 };
+
+export const validateChangePasswordInput = (
+  currentPassword,
+  newPassword,
+  confirmNewPassword
+) => {
+  const inputError = {};
+
+  if (currentPassword === "") {
+    inputError.password = "Current password must not be empty";
+  }
+
+  if (newPassword === "") {
+    inputError.password = "New password must not be empty";
+  }
+
+  if (newPassword !== confirmNewPassword) {
+    errors.confirmPassword =
+      "Current password & confirm new password must match";
+  }
+
+  return {
+    inputError,
+    valid: Object.keys(inputError).length < 1,
+  };
+};
