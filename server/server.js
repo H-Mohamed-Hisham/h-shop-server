@@ -8,6 +8,9 @@ import connectDB from "./config/db.js";
 // Middleware
 import { notFound, errorHandler } from "./middleware/error-middleware.js";
 
+// Auth Route
+import authRoute from "./routes/auth/authRoute.js";
+
 // Product Route
 import productRoute from "./routes/product/productRoute.js";
 
@@ -31,6 +34,7 @@ import adminProductRoute from "./routes/admin/adminProductRoute.js";
 import adminCategoryRoute from "./routes/admin/adminCategoryRoute.js";
 import adminOrderRoute from "./routes/admin/adminOrderRoute.js";
 import adminDashboardRoute from "./routes/admin/adminDashboardRoute.js";
+import adminUserRoute from "./routes/admin/adminUserRoute.js";
 
 dotenv.config();
 
@@ -41,6 +45,9 @@ app.use(cors());
 
 // Port
 const port = process.env.PORT || 5000;
+
+// Auth Route
+app.use("/api/auth", authRoute);
 
 // Product Route
 app.use("/api/product", productRoute);
@@ -65,6 +72,7 @@ app.use("/api/admin/product", adminProductRoute);
 app.use("/api/admin/category", adminCategoryRoute);
 app.use("/api/admin/order", adminOrderRoute);
 app.use("/api/admin/dashboard", adminDashboardRoute);
+app.use("/api/admin/user", adminUserRoute);
 
 // Server Route
 app.get("/", (req, res) => {

@@ -1,4 +1,4 @@
-export const validateSignupInput = (name, email, password) => {
+export const validateSignupInput = (name, email, password, confirmPassword) => {
   const inputError = {};
   if (name.trim() === "") {
     inputError.name = "Name must not be empty";
@@ -17,9 +17,10 @@ export const validateSignupInput = (name, email, password) => {
   if (password === "") {
     inputError.password = "Password must not be empty";
   }
-  // else if (password !== confirmPassword) {
-  //   errors.confirmPassword = 'Passwords must match'
-  // }
+
+  if (password !== confirmPassword) {
+    errors.confirmPassword = "Password & confirm password must match";
+  }
 
   return {
     inputError,
