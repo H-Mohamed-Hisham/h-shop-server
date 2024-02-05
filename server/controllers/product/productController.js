@@ -7,10 +7,11 @@ import Product from "../../models/Product.js";
 // * @route - GET /api/product/list
 // * @access - Public
 export const getAllProductsByLimit = asyncHandler(async (req, res) => {
-  const { skip, limit, productKeyword } = req.query;
+  const { skip, productKeyword } = req.query;
+  const limit = 4;
 
   try {
-    const _skip = Number(skip) || 1;
+    const _skip = Number(skip);
 
     const keyword = productKeyword
       ? {
@@ -24,13 +25,14 @@ export const getAllProductsByLimit = asyncHandler(async (req, res) => {
     const products = await Product.find({ ...keyword })
       .populate("categoryId", "name")
       .limit(limit)
-      .skip(limit * (_skip - 1));
+      .skip(_skip);
 
     const productCount = await Product.countDocuments({ ...keyword });
 
     res.json({
       products,
-      productCount: productCount,
+      productCount,
+      prevOffset: _skip + limit,
     });
   } catch (error) {
     throw new Error(error);
