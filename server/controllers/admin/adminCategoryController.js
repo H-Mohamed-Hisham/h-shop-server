@@ -57,3 +57,21 @@ export const updateCategory = asyncHandler(async (req, res) => {
     throw new Error("Category not found");
   }
 });
+
+// * @desc - Delete Category
+// * @route - POST /api/admin/category/delete
+// * @access - Admin
+export const deleteCategory = asyncHandler(async (req, res) => {
+  const { categoryId } = req.body;
+
+  try {
+    await Category.deleteMany({ _id: { $in: categoryId } });
+    res.json({
+      message: `${
+        categoryId.length > 1 ? "Categories" : "Category"
+      } deleted successfully`,
+    });
+  } catch (error) {
+    throw new Error("Something went wrong, Delete process failed");
+  }
+});

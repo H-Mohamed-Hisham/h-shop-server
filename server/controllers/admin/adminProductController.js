@@ -120,11 +120,16 @@ export const updateProduct = asyncHandler(async (req, res) => {
 // * @route - POST /api/admin/product/delete
 // * @access - Admin
 export const deleteProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.body.id);
-  if (product) {
-    await product.deleteOne();
-    res.json({ message: "Product deleted successfully" });
-  } else {
-    throw new Error("Product not found");
+  const { productId } = req.body;
+
+  try {
+    await Product.deleteMany({ _id: { $in: productId } });
+    res.json({
+      message: `${
+        productId.length > 1 ? "Products" : "Product"
+      } deleted successfully`,
+    });
+  } catch (error) {
+    throw new Error("Something went wrong, Delete process failed");
   }
 });

@@ -4,6 +4,7 @@ import express from "express";
 import {
   createCategory,
   updateCategory,
+  deleteCategory,
 } from "../../controllers/admin/adminCategoryController.js";
 
 // Middleware
@@ -14,5 +15,7 @@ const router = express.Router();
 router.post("/create", auth, admin, createCategory);
 
 router.post("/update", auth, admin, updateCategory);
+
+router.post("/delete", auth, admin, deleteCategory);
 
 export default router;
