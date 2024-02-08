@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 
 // Model
 import Category from "../../models/Category.js";
+import Product from "../../models/Product.js";
 
 // Category Validator
 import { validateCategoryInput } from "../../validators/categoryValidator.js";
@@ -63,9 +64,26 @@ export const updateCategory = asyncHandler(async (req, res) => {
 // * @access - Admin
 export const deleteCategory = asyncHandler(async (req, res) => {
   const { categoryId } = req.body;
+  const otherCategoryId = "65c4ed534f82d682ad68161c";
 
   try {
     await Category.deleteMany({ _id: { $in: categoryId } });
+
+    let products = [];
+    for (const id of categoryId) {
+      if (id !== otherCategoryId) {
+        const foundProducts = await Product.find({ categoryId: id });
+        products.push(...foundProducts);
+      }
+    }
+
+    if (products.length > 0) {
+      for (const product of products) {
+        product.categoryId = otherCategoryId;
+        await product.save();
+      }
+    }
+
     res.json({
       message: `${
         categoryId.length > 1 ? "Categories" : "Category"

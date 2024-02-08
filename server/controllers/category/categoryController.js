@@ -7,7 +7,8 @@ import Category from "../../models/Category.js";
 // * @route - GET /api/category/list
 // * @access - Public
 export const getAllCategory = asyncHandler(async (req, res) => {
-  const categories = await Category.find({});
+  const otherCategoryId = "65c4ed534f82d682ad68161c";
+  const categories = await Category.find({ _id: { $ne: otherCategoryId } });
 
   if (categories) {
     res.json(categories);
