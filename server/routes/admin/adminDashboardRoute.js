@@ -4,7 +4,8 @@ import express from "express";
 import {
   getProductCountByCategory,
   getOrderCountFromSpecificDays,
-  getUserCountFromSpecificDays,
+  getUserCountFromSpecificMonths,
+  getSalesStatFromSpecificMonths,
 } from "../../controllers/admin/adminDashboardController.js";
 
 // Middleware
@@ -16,6 +17,8 @@ router.get("/product-category-stats", auth, admin, getProductCountByCategory);
 
 router.post("/order-stats", auth, admin, getOrderCountFromSpecificDays);
 
-router.post("/user-stats", auth, admin, getUserCountFromSpecificDays);
+router.post("/user-stats", auth, admin, getUserCountFromSpecificMonths);
+
+router.post("/sales-stats", auth, admin, getSalesStatFromSpecificMonths);
 
 export default router;

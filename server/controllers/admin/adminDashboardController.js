@@ -85,7 +85,6 @@ export const getOrderCountFromSpecificDays = asyncHandler(async (req, res) => {
         res.json(finalResult);
       })
       .catch((error) => {
-        // console.error(error);
         throw new Error(error);
       });
   } catch (error) {
@@ -93,15 +92,15 @@ export const getOrderCountFromSpecificDays = asyncHandler(async (req, res) => {
   }
 });
 
-// * @desc - Get Order Stats
+// * @desc - Get User Stats
 // * @route - POST /api/admin/dashboard/user-stats
 // * @access - Admin
-export const getUserCountFromSpecificDays = asyncHandler(async (req, res) => {
+export const getUserCountFromSpecificMonths = asyncHandler(async (req, res) => {
   try {
-    const { days } = req.body;
+    const { months } = req.body;
 
     const currentDate = new Date();
-    const dateArray = Array.from({ length: days }, (_, index) => {
+    const dateArray = Array.from({ length: months }, (_, index) => {
       const date = new Date();
       date.setMonth(currentDate.getMonth() - index);
       return date.toISOString().split("T")[0];
@@ -110,7 +109,10 @@ export const getUserCountFromSpecificDays = asyncHandler(async (req, res) => {
     const aggregationPipeline = [
       {
         $match: {
-          createdAt: { $gte: new Date(dateArray[days - 1]), $lte: currentDate },
+          createdAt: {
+            $gte: new Date(dateArray[months - 1]),
+            $lte: currentDate,
+          },
         },
       },
       {
@@ -138,8 +140,59 @@ export const getUserCountFromSpecificDays = asyncHandler(async (req, res) => {
       .catch((error) => {
         throw new Error(error);
       });
+  } catch (error) {
+    throw new Error(error);
+  }
+});
 
-    // res.json([]);
+// * @desc - Get Sales Stats
+// * @route - POST /api/admin/dashboard/sales-stats
+// * @access - Admin
+export const getSalesStatFromSpecificMonths = asyncHandler(async (req, res) => {
+  try {
+    const { months } = req.body;
+
+    const currentDate = new Date();
+    const dateArray = Array.from({ length: months }, (_, index) => {
+      const date = new Date();
+      date.setMonth(currentDate.getMonth() - index);
+      return date.toISOString().split("T")[0];
+    });
+
+    const aggregationPipeline = [
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(dateArray[months - 1]),
+            $lte: currentDate,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          total_amount: { $sum: "$totalAmount" },
+        },
+      },
+    ];
+
+    await Order.aggregate(aggregationPipeline)
+      .then((result) => {
+        const countsByDate = {};
+        result.forEach(({ _id, total_amount }) => {
+          countsByDate[dayjs(_id).format("MM-YYYY")] = total_amount;
+        });
+
+        const finalResult = dateArray.map((dateString) => ({
+          date: dayjs(dateString).format("MMM-YYYY"),
+          total_amount: countsByDate[dayjs(dateString).format("MM-YYYY")] || 0,
+        }));
+
+        res.json(finalResult);
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
   } catch (error) {
     throw new Error(error);
   }
