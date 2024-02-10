@@ -70,3 +70,16 @@ export const validateChangePasswordInput = (
     valid: Object.keys(inputError).length < 1,
   };
 };
+
+export const validateUpdateProfileInput = (name) => {
+  const inputError = {};
+
+  if (name === "") {
+    inputError.password = "Name must not be empty";
+  }
+
+  return {
+    inputError,
+    valid: Object.keys(inputError).length < 1,
+  };
+};

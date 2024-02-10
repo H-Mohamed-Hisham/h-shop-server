@@ -5,7 +5,13 @@ import bcrypt from "bcryptjs";
 import User from "../../models/User.js";
 
 // User Validator
-import { validateChangePasswordInput } from "../../validators/userValidator.js";
+import {
+  validateChangePasswordInput,
+  validateUpdateProfileInput,
+} from "../../validators/userValidator.js";
+
+// Helpers
+import { generateToken } from "../../helpers/generateToken.js";
 
 // * @desc - Get user profile
 // * @route - GET /api/user/profile
@@ -57,6 +63,51 @@ export const changePassword = asyncHandler(async (req, res) => {
     } else {
       throw new Error("Invalid current password");
     }
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+// * @desc - Update Profile
+// * @route - GET /api/user/update-profile
+// * access - Private
+export const updateProfile = asyncHandler(async (req, res) => {
+  const { name } = req.body;
+
+  // Validate update profile data
+  const { valid, inputError } = validateUpdateProfileInput(name);
+
+  if (!valid) {
+    return res.json({
+      formInputError: inputError,
+    });
+  }
+
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    user.name = name;
+    await user.save();
+    res.json({
+      token: generateToken(
+        user._id,
+        user.name,
+        user.role,
+        user.email,
+        user.createdAt,
+        user.updatedAt
+      ),
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      },
+      message: "Profile updated successfully",
+    });
   } else {
     res.status(404);
     throw new Error("User not found");
