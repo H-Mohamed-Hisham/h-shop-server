@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import formData from "express-form-data";
 
 // DB
 import connectDB from "./config/db.js";
@@ -35,13 +36,15 @@ import adminCategoryRoute from "./routes/admin/adminCategoryRoute.js";
 import adminOrderRoute from "./routes/admin/adminOrderRoute.js";
 import adminDashboardRoute from "./routes/admin/adminDashboardRoute.js";
 import adminUserRoute from "./routes/admin/adminUserRoute.js";
+import adminUploadRoute from "./routes/admin/adminUploadRoute.js";
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(cors());
+app.use(formData.parse());
+// app.use(cors());
 
 // Port
 const port = process.env.PORT || 5000;
@@ -73,6 +76,7 @@ app.use("/api/admin/category", adminCategoryRoute);
 app.use("/api/admin/order", adminOrderRoute);
 app.use("/api/admin/dashboard", adminDashboardRoute);
 app.use("/api/admin/user", adminUserRoute);
+app.use("/api/admin/upload", adminUploadRoute);
 
 // Server Route
 app.get("/", (req, res) => {
