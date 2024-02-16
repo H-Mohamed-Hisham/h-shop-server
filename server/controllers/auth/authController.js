@@ -43,7 +43,8 @@ export const signin = asyncHandler(async (req, res) => {
         user.role,
         user.email,
         user.createdAt,
-        user.updatedAt
+        user.updatedAt,
+        user.isAccountVerified
       ),
       user: {
         _id: user._id,
@@ -52,6 +53,7 @@ export const signin = asyncHandler(async (req, res) => {
         role: user.role,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
+        isAccountVerified: user.isAccountVerified,
       },
     });
   } else {
@@ -100,7 +102,8 @@ export const signup = asyncHandler(async (req, res) => {
         user.role,
         user.email,
         user.createdAt,
-        user.updatedAt
+        user.updatedAt,
+        user.isAccountVerified
       ),
       user: {
         _id: user._id,
@@ -109,6 +112,7 @@ export const signup = asyncHandler(async (req, res) => {
         role: user.role,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
+        isAccountVerified: user.isAccountVerified,
       },
       message: `Your account has been created successfully`,
     });

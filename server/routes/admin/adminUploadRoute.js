@@ -62,6 +62,7 @@ router.post("/image", (req, res) => {
           status: "success",
           message: "Image Uploaded Successfully",
           image_url: result.url,
+          image_public_id: result.public_id,
         });
       }
     });

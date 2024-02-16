@@ -23,8 +23,16 @@ export const getAllProducts = asyncHandler(async (req, res) => {
 // * @route - POST /api/admin/product/create
 // * @access - Admin
 export const createProduct = asyncHandler(async (req, res) => {
-  const { name, image, brand, categoryId, description, price, countInStock } =
-    req.body;
+  const {
+    name,
+    image,
+    imagePublicId,
+    brand,
+    categoryId,
+    description,
+    price,
+    countInStock,
+  } = req.body;
 
   try {
     // Validate product data
@@ -47,6 +55,7 @@ export const createProduct = asyncHandler(async (req, res) => {
     const product = new Product({
       name,
       image,
+      imagePublicId,
       brand,
       categoryId,
       description,
@@ -69,6 +78,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
     id,
     name,
     image,
+    imagePublicId,
     brand,
     categoryId,
     description,
@@ -104,6 +114,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
       product.categoryId = categoryId;
       product.countInStock = countInStock;
       product.image = image;
+      product.imagePublicId = imagePublicId;
 
       await product.save();
 

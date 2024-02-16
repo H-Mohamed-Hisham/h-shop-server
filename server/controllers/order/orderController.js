@@ -133,7 +133,9 @@ export const getMyOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findOne({
     userId: req.user._id,
     _id: req.query.id,
-  }).populate("userId", "name email");
+  })
+    .populate("userId", "name email")
+    .populate("orderItems.productId", "image");
 
   if (order) {
     res.json(order);
