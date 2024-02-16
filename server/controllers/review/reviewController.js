@@ -11,10 +11,9 @@ export const getReviews = asyncHandler(async (req, res) => {
   const { productId } = req.query;
 
   try {
-    const reviews = await Review.find({ productId: productId }).populate(
-      "userId",
-      "name"
-    );
+    const reviews = await Review.find({ productId: productId })
+      .populate("userId", "name")
+      .sort({ createdAt: -1 });
 
     res.json(reviews);
   } catch (error) {

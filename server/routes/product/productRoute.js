@@ -13,7 +13,7 @@ router.get("/list", getAllProductsByLimit);
 
 router.get("/detail", getProductById);
 
-router.get("/top-rated-product", getTopRatedProducts);
+router.get("/top-rated-products", getTopRatedProducts);
 
 // router.get("/:id", getProductById);
 
