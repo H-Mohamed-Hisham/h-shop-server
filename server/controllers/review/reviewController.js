@@ -1,5 +1,8 @@
 import asyncHandler from "express-async-handler";
 
+// Review Validator
+import { validateReviewInput } from "../../validators/reviewValidator.js";
+
 // Model
 import Review from "../../models/Review.js";
 import Product from "../../models/Product.js";
@@ -36,6 +39,15 @@ export const addReview = asyncHandler(async (req, res) => {
     if (isAlreadyReviewed.length > 0) {
       throw new Error("Product is already reviewed by yourself");
     } else {
+      // Validate review data
+      const { valid, inputError } = validateReviewInput(rating, comment);
+
+      if (!valid) {
+        return res.json({
+          formInputError: inputError,
+        });
+      }
+
       const newReview = new Review({
         productId,
         userId,
