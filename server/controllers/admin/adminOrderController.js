@@ -28,10 +28,9 @@ export const getAllOrders = asyncHandler(async (req, res) => {
 // * @route - GET /api/admin/order/detail?id=:id
 // * @access - Admin
 export const getOrderById = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.query.id).populate(
-    "userId",
-    "name email"
-  );
+  const order = await Order.findById(req.query.id)
+    .populate("userId", "name email")
+    .populate("orderItems.productId", "image");
 
   if (order) {
     res.json(order);

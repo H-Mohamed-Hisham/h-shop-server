@@ -102,6 +102,7 @@ export const getUserCountFromSpecificMonths = asyncHandler(async (req, res) => {
     const currentDate = new Date();
     const dateArray = Array.from({ length: months }, (_, index) => {
       const date = new Date();
+      date.setDate(1);
       date.setMonth(currentDate.getMonth() - index);
       return date.toISOString().split("T")[0];
     });
@@ -117,7 +118,7 @@ export const getUserCountFromSpecificMonths = asyncHandler(async (req, res) => {
       },
       {
         $group: {
-          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
           count: { $sum: 1 },
         },
       },
@@ -125,12 +126,14 @@ export const getUserCountFromSpecificMonths = asyncHandler(async (req, res) => {
 
     await User.aggregate(aggregationPipeline)
       .then((result) => {
-        const countsByDate = {};
+        let countsByDate = {};
+        let finalResult = [];
+
         result.forEach(({ _id, count }) => {
           countsByDate[dayjs(_id).format("MM-YYYY")] = count;
         });
 
-        const finalResult = dateArray.map((dateString) => ({
+        finalResult = dateArray.map((dateString) => ({
           date: dayjs(dateString).format("MMM-YYYY"),
           count: countsByDate[dayjs(dateString).format("MM-YYYY")] || 0,
         }));
@@ -155,6 +158,7 @@ export const getSalesStatFromSpecificMonths = asyncHandler(async (req, res) => {
     const currentDate = new Date();
     const dateArray = Array.from({ length: months }, (_, index) => {
       const date = new Date();
+      date.setDate(1);
       date.setMonth(currentDate.getMonth() - index);
       return date.toISOString().split("T")[0];
     });
@@ -170,7 +174,7 @@ export const getSalesStatFromSpecificMonths = asyncHandler(async (req, res) => {
       },
       {
         $group: {
-          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
           total_amount: { $sum: "$totalAmount" },
         },
       },
@@ -178,12 +182,14 @@ export const getSalesStatFromSpecificMonths = asyncHandler(async (req, res) => {
 
     await Order.aggregate(aggregationPipeline)
       .then((result) => {
-        const countsByDate = {};
+        let countsByDate = {};
+        let finalResult = [];
+
         result.forEach(({ _id, total_amount }) => {
           countsByDate[dayjs(_id).format("MM-YYYY")] = total_amount;
         });
 
-        const finalResult = dateArray.map((dateString) => ({
+        finalResult = dateArray.map((dateString) => ({
           date: dayjs(dateString).format("MMM-YYYY"),
           total_amount: countsByDate[dayjs(dateString).format("MM-YYYY")] || 0,
         }));
