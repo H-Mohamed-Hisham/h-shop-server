@@ -32,7 +32,10 @@ export const addReview = asyncHandler(async (req, res) => {
   const userId = req.user._id;
 
   try {
-    const isAlreadyReviewed = await Review.find({ userId: userId });
+    const isAlreadyReviewed = await Review.find({
+      userId: userId,
+      productId: productId,
+    });
     let review = await Review.find({ productId: productId });
     const product = await Product.findById(productId);
 

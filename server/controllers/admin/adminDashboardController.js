@@ -102,7 +102,7 @@ export const getUserCountFromSpecificMonths = asyncHandler(async (req, res) => {
     const currentDate = new Date();
     const dateArray = Array.from({ length: months }, (_, index) => {
       const date = new Date();
-      date.setDate(1);
+      // date.setDate(1);
       date.setMonth(currentDate.getMonth() - index);
       return date.toISOString().split("T")[0];
     });
@@ -158,7 +158,7 @@ export const getSalesStatFromSpecificMonths = asyncHandler(async (req, res) => {
     const currentDate = new Date();
     const dateArray = Array.from({ length: months }, (_, index) => {
       const date = new Date();
-      date.setDate(1);
+      // date.setDate(1);
       date.setMonth(currentDate.getMonth() - index);
       return date.toISOString().split("T")[0];
     });

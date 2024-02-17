@@ -13,10 +13,6 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
-    imagePublicId: {
-      type: String,
-      required: true,
-    },
     brand: {
       type: String,
       required: true,

@@ -22,7 +22,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "MH-SHOP",
+    folder: "H-SHOP",
   },
 });
 
