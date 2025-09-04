@@ -10,7 +10,7 @@ This repository contains the **server-side backend API** for **H-Shop**, a **ful
 It handles **user authentication**, **product & order management**, **Stripe payment processing**, **Cloudinary image uploads**, and **admin dashboard statistics**.
 
 > ⚠️ **Note**: This is the **backend API** for H-Shop.  
-> For the **client-side** React app, visit [H-Shop Client](https://github.com/H-Mohamed-Hisham/h-shop-client).
+> For the **client-side** React app, visit [H-Shop Client](https://github.com/mohamedhisham95/h-shop-client).
 
 > ⚠️ **Disclaimer**
 >
@@ -87,35 +87,45 @@ After completing the course, I extended the app by adding:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/H-Mohamed-Hisham/h-shop-server.git
+git clone https://github.com/mohamedhisham95/h-shop-server.git
 cd h-shop-server
 ```
 
-### 2. Install Dependencies
+### 2. Prefered Node Version
+
+```
+18.20.8
+```
+
+### 3. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Set Up Environment Variables
+### 4. Set Up Environment Variables
 
 Create a .env file:
 
 ```
+# PORT Optional
+PORT=5000
 JWT_SECRET=your_secret
 MONGODB_URI=mongodb_uri
 NODE_ENV=development or production
 CLOUDINARY_CLOUD_NAME=cloud_name
 CLOUDINARY_API_KEY=api_key
 CLOUDINARY_API_SECRET=api_secret
+CLOUDINARY_FOLDER_NAME=folder_name
 ```
 
-### 4. Run the Development Server
+### 5. Run the Development Server
 
 ```
-npm run dev
+npm run server
+// Nodemon
 ```
 
-Your app will be running at http://localhost:3000
+Your app will be running at http://localhost:5000
 
 Built with ❤️ using Node.js, Express, MongoDB, Cloudinary, and Stripe
