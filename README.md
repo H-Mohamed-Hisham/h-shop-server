@@ -12,6 +12,11 @@ It handles **user authentication**, **product & order management**, **Stripe pay
 > ⚠️ **Note**: This is the **backend API** for H-Shop.  
 > For the **client-side** React app, visit [H-Shop Client](https://github.com/H-Mohamed-Hisham/h-shop-client).
 
+> ⚠️ **Disclaimer**
+>
+> - This project was built for learning purposes and is not intended for production use.
+> - Product data is dummy and Stripe payments are processed in test mode.
+
 ---
 
 ## 🔗 Live API
@@ -62,6 +67,18 @@ It handles **user authentication**, **product & order management**, **Stripe pay
 - **Payment Gateway**: [Stripe](https://stripe.com/)
 - **Authentication**: JWT + bcrypt
 - **Deployment**: [Render](https://render.com/)
+
+---
+
+## 📌 Project Purpose
+
+This project was developed as part of a Udemy full-stack course to learn Node.js, Express, MongoDB, and RESTful APIs.
+
+After completing the course, I extended the app by adding:
+
+- Cloudinary for image hosting.
+- Admin dashboard with analytics.
+- Enhanced order management features.
 
 ---
 
