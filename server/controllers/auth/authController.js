@@ -1,16 +1,16 @@
-import asyncHandler from "express-async-handler";
+import asyncHandler from 'express-async-handler';
 
 // Model
-import User from "../../models/User.js";
+import User from '../../models/User.js';
 
 // User Validator
 import {
   validateSignupInput,
   validateSigninInput,
-} from "../../validators/userValidator.js";
+} from '../../validators/userValidator.js';
 
 // Helpers
-import { generateToken } from "../../helpers/generateToken.js";
+import { generateToken } from '../../helpers/generateToken.js';
 
 // * @desc - Sign In (Auth user & get token)
 // * @route - POST /api/auth/signin
@@ -32,7 +32,7 @@ export const signin = asyncHandler(async (req, res) => {
   const match = await user.matchPassword(password);
 
   if (!match) {
-    throw new Error("Invalid email or password");
+    throw new Error('Invalid email or password');
   }
 
   if (user && user.isAccountVerified) {
@@ -57,7 +57,7 @@ export const signin = asyncHandler(async (req, res) => {
       },
     });
   } else {
-    throw new Error("Email has been not verified");
+    throw new Error('Email has been not verified');
   }
 });
 
@@ -65,6 +65,8 @@ export const signin = asyncHandler(async (req, res) => {
 // * @route - POST /api/auth/signup
 // * @access - Public
 export const signup = asyncHandler(async (req, res) => {
+  throw new Error('Signup is disabled');
+
   const { name, email, password, confirmPassword } = req.body;
 
   // Validate user signup data
@@ -83,7 +85,7 @@ export const signup = asyncHandler(async (req, res) => {
   const userExists = await User.findOne({ email });
 
   if (userExists) {
-    throw new Error("Email already exists");
+    throw new Error('Email already exists');
   }
 
   const user = await User.create({
@@ -91,7 +93,7 @@ export const signup = asyncHandler(async (req, res) => {
     email,
     password,
     isAccountVerified: true,
-    role: "Customer",
+    role: 'Customer',
   });
 
   if (user && user.isAccountVerified) {
@@ -117,6 +119,6 @@ export const signup = asyncHandler(async (req, res) => {
       message: `Your account has been created successfully`,
     });
   } else {
-    throw new Error("Something went wrong, Please try again.");
+    throw new Error('Something went wrong, Please try again.');
   }
 });

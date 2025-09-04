@@ -1,15 +1,14 @@
-import asyncHandler from "express-async-handler";
-import pkg from "uuidv4";
-import Stripe from "stripe";
+import asyncHandler from 'express-async-handler';
+import pkg from 'uuidv4';
+
+// Config
+import { stripe } from '../../config/stripe.js';
 
 // Model
-import Product from "../../models/Product.js";
-import Order from "../../models/Order.js";
+import Product from '../../models/Product.js';
+import Order from '../../models/Order.js';
 
 const { uuid } = pkg;
-const stripe = new Stripe(
-  "sk_test_51HqwsgBrBOrRrnlyc69LWG9e8fTobnvkPflGi21vYFjEa0Mv1d1IKuOec9bGf8jRLrsFPYOzVqxUQ1LzyaPPbcU100FTu7IRP2"
-);
 
 // * @desc - Get All Products
 // * @route - GET /api/order/checkout
@@ -33,28 +32,34 @@ export const checkout = asyncHandler(async (req, res) => {
     // Order Id
     const orderId = createdOrder._id;
 
-    const customer = await stripe.customers.create({
-      email: token.email,
-      source: token.id,
-    });
-
     const idempotencyKey = uuid();
 
-    const charge = await stripe.charges.create(
+    // Create customer only with email
+    // const customer = await stripe.customers.create({
+    //   email: token.email,
+    // });
+
+    const charge = await stripe.paymentIntents.create(
       {
         amount: totalAmount * 100,
-        currency: "inr",
-        customer: customer.id,
+        currency: 'inr',
+        payment_method_data: {
+          type: 'card',
+          card: { token: token.id }, // ✅ Uses the token from frontend
+        },
+        confirmation_method: 'automatic',
+        confirm: true, // ✅ Automatically confirm
         receipt_email: token.email,
-        description: `Purchase`,
+        description: 'Purchase',
+        // customer: customer.id, // ✅ attach customer here
         shipping: {
-          name: token.card.name,
+          name: token.card.name || shippingAddress.fullName,
           address: {
-            line1: token.card.address_line1,
-            line2: token.card.address_line2,
-            city: token.card.address_city,
-            country: token.card.address_country,
-            postal_code: token.card.address_zip,
+            line1: token.card.address_line1 || shippingAddress.address,
+            line2: token.card.address_line2 || '',
+            city: token.card.address_city || shippingAddress.city,
+            country: token.card.address_country || 'IN',
+            postal_code: token.card.address_zip || shippingAddress.postalCode,
           },
         },
       },
@@ -91,14 +96,15 @@ export const checkout = asyncHandler(async (req, res) => {
     );
 
     res.status(201).json({
-      status: "success",
-      message: "Order created successfully",
+      status: 'success',
+      message: 'Order created successfully',
       orderId,
     });
   } catch (error) {
-    res.status(201).json({
-      status: "failure",
-      message: "Failed to created order!, Please try again",
+    console.error('Stripe Checkout Error:', error);
+    res.status(500).json({
+      status: 'failure',
+      message: error.message || 'Failed to create order, please try again',
     });
   }
 });
@@ -109,7 +115,7 @@ export const checkout = asyncHandler(async (req, res) => {
 export const getMyOrders = asyncHandler(async (req, res) => {
   try {
     const orders = await Order.find({ userId: req.user._id })
-      .populate("userId", "name")
+      .populate('userId', 'name')
       .sort({ createdAt: -1 });
 
     const ordersResponse = [];
@@ -134,13 +140,13 @@ export const getMyOrderById = asyncHandler(async (req, res) => {
     userId: req.user._id,
     _id: req.query.id,
   })
-    .populate("userId", "name email")
-    .populate("orderItems.productId", "image");
+    .populate('userId', 'name email')
+    .populate('orderItems.productId', 'image');
 
   if (order) {
     res.json(order);
   } else {
     res.status(404);
-    throw new Error("Order not found");
+    throw new Error('Order not found');
   }
 });
