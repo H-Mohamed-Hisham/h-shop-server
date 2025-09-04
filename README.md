@@ -21,7 +21,8 @@ It handles **user authentication**, **product & order management**, **Stripe pay
 
 ## 🔗 Live API
 
-🚀 **Base URL** → [https://h-shop-server.onrender.com/api](https://h-shop-server.onrender.com/api)
+🚀 **Base URL** → [https://h-shop-server.onrender.com](https://h-shop-server.onrender.com)
+🔗 **Products API** -> [https://h-shop-server.onrender.com/api/product/list](https://h-shop-server.onrender.com/api/product/list)
 
 ---
 
